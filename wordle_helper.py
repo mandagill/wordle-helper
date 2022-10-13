@@ -1,3 +1,4 @@
+from operator import le
 from pprint import pprint
 
 class Wordle(object):
@@ -43,16 +44,24 @@ class Wordle(object):
         possible_combos = []
 
         for each_letter_1 in data_dict["available_letters"]:
-            possible_combos.append(self.stringify_the_combo(data_dict["empty_slots"], each_letter_1, each_letter_2))
+            # possible_combos.append(self.stringify_the_combo(data_dict["empty_slots"], each_letter_1, each_letter_2))
             for each_letter_2 in data_dict["available_letters"]:
-                possible_combos.append(self.stringify_the_combo(data_dict["empty_slots"], each_letter_1, each_letter_2))
+                possible_combos.append(self.stringify_the_combo(data_dict, each_letter_1, each_letter_2))
+
+        return possible_combos
 
 
-    def stringify_the_combo(data_dict, index_1, index_2):
-        """Takes some list data and does list magic to place strings at the 
+    def stringify_the_combo(self, data_dict, letter1, letter2):
+        """Takes the dictionary and does list magic to place strings at the 
         correct index in the list, then stringifies it"""
-        # TODO
-        return possible_word
+        # hypothesis: data_dict is actually a list?
+
+        combo_as_list = data_dict['empty_slots']
+
+        combo_as_list[data_dict['index_a']] = letter1
+        combo_as_list[data_dict['index_b']] = letter2
+
+        return ''.join(combo_as_list)
 
 
     def validate_input():
@@ -63,6 +72,6 @@ class Wordle(object):
 if __name__ == "__main__":
     wordle = Wordle()
     user_input = wordle.get_inputs()
-    pprint(user_input)
-    # possible_combos = wordle.get_combos(data_dict=user_input)
-    # pprint(possible_combos)
+    # print(user_input)
+    possible_combos = wordle.get_combos(data_dict=user_input)
+    pprint(possible_combos)
